@@ -154,3 +154,14 @@ footer {
   display: flex;
   gap: 10px;
 }
+
+.logout,
+.user {
+  background: #fafafa;
+  border: none;
+  cursor: pointer;
+}
+
+.signup {
+  background-color: #a4e9e9;
+}
