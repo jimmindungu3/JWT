@@ -1,0 +1,53 @@
+<%- include('partials/header'); -%>
+
+<form>
+  <label for="email">Email</label>
+  <input type="email" name="email" placeholder="Enter email" />
+  <div class="email error"></div>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" placeholder="Enter password" />
+  <div class="password error"></div>
+
+  <button>Login</button>
+</form>
+
+<script>
+  const form = document.querySelector("form");
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Clear previous errors
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    // check if user has been logged in and redirect
+    if (response.ok && data.user) {
+      location.assign("/smoothies");
+    }
+
+    // Show login errors
+    if (data.email) {
+      emailError.textContent = data.email;
+    }
+    if (data.password) {
+      passwordError.textContent = data.password;
+    }
+  });
+</script>
+
+<%- include('partials/footer'); -%>
